@@ -9,13 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const EXPENSE_CATEGORIES = {
-  transport: ["Bus", "CNG", "Rickshaw", "Uber", "Train", "Other"],
+  transport: ["Bus", "CNG", "Rickshaw", "Uber", "Train", "Other","Pathao"],
   food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Restaurant", "Groceries", "Other"],
-  visit: ["Movie", "Park", "Museum", "Friend's place", "Shopping mall", "Other"],
+  visit: ["Movie", "Park", "Museum", "Friend's place","relative's house","Shopping mall", "Other"],
   lending: ["Family", "Friend", "Charity", "Gift", "Other"],
   helped: ["Family help", "Friend help", "Neighbor", "Other"],
   tour: ["Hotel", "Travel tickets", "Food", "Activities", "Souvenirs", "Other"],
-  bills: ["Electricity", "Water", "Gas", "Internet", "Phone", "Rent", "Other"],
+  bills: ["Electricity", "Water", "Gas", "Internet", "Phone", "Rent","MRT", "Other"],
   shopping: ["Clothing", "Electronics", "Household", "Personal care", "Other"],
   others: ["Medicine", "Entertainment", "Miscellaneous", "Other"],
 }
@@ -63,7 +63,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
   }
 
   return (
-    <Card className="glass-card border-primary/20">
+    <Card className="glass-card border-primary/20 bg-card">
       <CardHeader>
         <CardTitle className="text-primary">Add New Transaction</CardTitle>
       </CardHeader>
