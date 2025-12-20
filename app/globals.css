@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -132,5 +133,19 @@
     background: oklch(0.2 0 0 / 0.4);
     backdrop-filter: blur(10px);
     border: 1px solid oklch(0.4 0.08 95 / 0.2);
+  }
+  .loader {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid oklch(0.85 0.2 95 / 0.2); /* Lighter yellow */
+    border-top-color: oklch(0.85 0.2 95); /* Bright yellow */
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

@@ -88,10 +88,10 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold flex items-center justify-center"
               disabled={loading}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? <div className="loader"></div> : "Login"}
             </Button>
           </form>
 
