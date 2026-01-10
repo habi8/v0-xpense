@@ -53,8 +53,8 @@ export default function DashboardClient({ user, initialTransactions }) {
 
   return (
     <div className="min-h-screen p-4 md:p-8">
-      {loggingOut && <Loader />}
-      <div className="max-w-6xl mx-auto space-y-6">
+      {loggingOut && <Loader message="Signing out..." />}
+      <div className={`max-w-6xl mx-auto space-y-6 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -67,7 +67,7 @@ export default function DashboardClient({ user, initialTransactions }) {
             disabled={loggingOut}
             className="border-primary/20 text-foreground hover:bg-primary hover:text-primary-foreground bg-transparent"
           >
-            {loggingOut ? "Logging out..." : "Logout"}
+            {loggingOut ? "Signing out..." : "Logout"}
           </Button>
         </div>
 

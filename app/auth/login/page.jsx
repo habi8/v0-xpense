@@ -44,8 +44,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      {loading && <Loader />}
-      <Card className="w-full max-w-md glass-card border-primary/20">
+      {loading && <Loader message="Logging in..." />}
+      <div className={`w-full ${loading ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+        <Card className="w-full max-w-md glass-card border-primary/20">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-3xl font-bold text-primary">XPENSE</CardTitle>
           <CardDescription className="text-foreground/80">Login to your account</CardDescription>
@@ -105,6 +106,7 @@ export default function LoginPage() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   )
 }
