@@ -46,7 +46,7 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      {loading && <Loader message="Creating account..." />}
+      {loading && <Loader message="Signing up..." />}
       <div className={`w-full max-w-md mx-auto ${loading ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <Card className="w-full max-w-md glass-card border-primary/20">
         <CardHeader className="space-y-2 text-center">
@@ -97,7 +97,7 @@ export default function SignUpPage() {
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
               disabled={loading}
             >
-              {loading ? "Creating account..." : "Sign Up"}
+              {loading ? "Signing up..." : "Sign Up"}
             </Button>
           </form>
 
