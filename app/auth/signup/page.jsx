@@ -32,14 +32,22 @@ export default function SignUpPage() {
         },
       })
 
-      if (error) throw error
+      if (error) {
+        // Handle duplicate email error
+        if (error.message.includes("already registered") || error.message.includes("User already exists")) {
+          setError("This email is already registered. Please login or use a different email.")
+        } else {
+          setError(error.message)
+        }
+        setLoading(false)
+        return
+      }
 
       if (data?.user) {
         router.push("/auth/check-email")
       }
     } catch (err) {
       setError(err.message)
-    } finally {
       setLoading(false)
     }
   }
