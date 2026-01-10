@@ -256,27 +256,43 @@ export default function MonthlyReports({ transactions }) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div style={{ width: "100%", height: 400 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={expenseBreakdown}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: ৳${value}`}
-                    outerRadius={120}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {expenseBreakdown.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={getCategoryColor(entry.name)} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="w-full">
+              <div style={{ width: "100%", height: "300px" }} className="md:h-96">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                    <Pie
+                      data={expenseBreakdown}
+                      cx="50%"
+                      cy="45%"
+                      labelLine={false}
+                      label={false}
+                      outerRadius={{ xs: 80, sm: 100, md: 120 }}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {expenseBreakdown.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={getCategoryColor(entry.name)} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} />
+                    <Legend wrapperStyle={{ paddingTop: "20px" }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {expenseBreakdown.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-2 p-2 rounded bg-background/50">
+                    <div
+                      className="w-4 h-4 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: getCategoryColor(entry.name) }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{entry.name}</p>
+                      <p className="text-xs text-muted-foreground">৳{entry.value.toFixed(2)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>

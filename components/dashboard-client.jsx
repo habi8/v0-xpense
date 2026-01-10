@@ -10,16 +10,19 @@ import AddTransactionForm from "@/components/add-transaction-form"
 import TransactionsList from "@/components/transactions-list"
 import MonthlyReports from "@/components/monthly-reports"
 import YearlyReports from "@/components/yearly-reports"
+import Loader from "@/components/loader"
 import { BarChart3, TrendingUp, TrendingDown, BookOpen } from "lucide-react"
 
 export default function DashboardClient({ user, initialTransactions }) {
   const [transactions, setTransactions] = useState(initialTransactions)
   const [showForm, setShowForm] = useState(false)
   const [activeTab, setActiveTab] = useState("dashboard")
+  const [loggingOut, setLoggingOut] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   async function handleLogout() {
+    setLoggingOut(true)
     await supabase.auth.signOut()
     router.push("/")
     router.refresh()
@@ -50,6 +53,7 @@ export default function DashboardClient({ user, initialTransactions }) {
 
   return (
     <div className="min-h-screen p-4 md:p-8">
+      {loggingOut && <Loader />}
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -60,9 +64,10 @@ export default function DashboardClient({ user, initialTransactions }) {
           <Button
             variant="outline"
             onClick={handleLogout}
+            disabled={loggingOut}
             className="border-primary/20 text-foreground hover:bg-primary hover:text-primary-foreground bg-transparent"
           >
-            Logout
+            {loggingOut ? "Logging out..." : "Logout"}
           </Button>
         </div>
 

@@ -199,7 +199,7 @@ export default function YearlyReports({ transactions }) {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} />
+                  <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #333", borderRadius: "4px" }} textStyle={{ color: "#fff" }} />
                   <Legend />
                   <Bar dataKey="earnings" fill="hsl(120 100% 50%)" name="Earnings" />
                   <Bar dataKey="expenses" fill="hsl(10 100% 60%)" name="Expenses" />
@@ -224,27 +224,43 @@ export default function YearlyReports({ transactions }) {
             <CardDescription>Distribution of all expenses for {selectedYear}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div style={{ width: "100%", height: 400 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={yearlyExpenseBreakdown}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: ৳${value}`}
-                    outerRadius={120}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {yearlyExpenseBreakdown.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={getCategoryColor(entry.name)} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="w-full">
+              <div style={{ width: "100%", height: "300px" }} className="md:h-96">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                    <Pie
+                      data={yearlyExpenseBreakdown}
+                      cx="50%"
+                      cy="45%"
+                      labelLine={false}
+                      label={false}
+                      outerRadius={{ xs: 80, sm: 100, md: 120 }}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {yearlyExpenseBreakdown.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={getCategoryColor(entry.name)} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} />
+                    <Legend wrapperStyle={{ paddingTop: "20px" }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {yearlyExpenseBreakdown.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-2 p-2 rounded bg-background/50">
+                    <div
+                      className="w-4 h-4 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: getCategoryColor(entry.name) }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{entry.name}</p>
+                      <p className="text-xs text-muted-foreground">৳{entry.value.toFixed(2)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -270,7 +286,7 @@ export default function YearlyReports({ transactions }) {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} />
+                  <Tooltip formatter={(value) => `৳${value.toFixed(2)}`} contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #333", borderRadius: "4px" }} textStyle={{ color: "#fff" }} />
                   <Legend />
                   <Bar dataKey="cash" fill="hsl(58 90% 50%)" name="Cash" />
                   <Bar dataKey="bkash" fill="hsl(280 85% 55%)" name="bKash" />
