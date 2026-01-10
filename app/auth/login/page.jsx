@@ -34,10 +34,11 @@ export default function LoginPage() {
       if (data?.user) {
         router.push("/dashboard")
         router.refresh()
+        // Don't set loading to false - keep loader until navigation completes
+        return
       }
     } catch (err) {
       setError(err.message)
-    } finally {
       setLoading(false)
     }
   }

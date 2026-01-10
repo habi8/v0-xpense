@@ -45,6 +45,8 @@ export default function SignUpPage() {
 
       if (data?.user) {
         router.push("/auth/check-email")
+        // Don't set loading to false - keep loader until navigation completes
+        return
       }
     } catch (err) {
       setError(err.message)
