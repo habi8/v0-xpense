@@ -184,7 +184,6 @@ export default function DashboardClient({ user, initialTransactions }) {
           </TabsContent>
         </Tabs>
       </div>
-      </div>
     </div>
   )
 }
