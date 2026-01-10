@@ -22,7 +22,7 @@ export const metadata: Metadata = {
       },
       {
         url: "/xpense.png",
-        type: "image/png+xml",
+        type: "image/png+xml+svg",
       },
     ],
     apple: "/xpense.png",
