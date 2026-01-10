@@ -1,4 +1,3 @@
-
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -134,18 +133,20 @@
     backdrop-filter: blur(10px);
     border: 1px solid oklch(0.4 0.08 95 / 0.2);
   }
-  .loader {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid oklch(0.15 0 0 / 0.2); /* Lighter black for track */
-    border-top-color: oklch(0.15 0 0); /* Black for spinner */
-    animation: spin 1s linear infinite;
+
+  /* Adding smooth fade-in animation for tab transitions */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
   }
 }

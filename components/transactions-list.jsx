@@ -53,10 +53,12 @@ export default function TransactionsList({ transactions, onDelete }) {
               <div className="flex items-center gap-3 mb-1">
                 <span
                   className={`px-2 py-1 rounded text-xs font-semibold ${
-                    transaction.type === "income" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+                    transaction.type === "income" || transaction.type === "earnings"
+                      ? "bg-green-500/20 text-green-400"
+                      : "bg-red-500/20 text-red-400"
                   }`}
                 >
-                  {transaction.type}
+                  {transaction.type === "income" || transaction.type === "earnings" ? "earnings" : "expense"}
                 </span>
                 <span className="text-xs text-muted-foreground">{transaction.payment_method}</span>
               </div>
@@ -69,8 +71,11 @@ export default function TransactionsList({ transactions, onDelete }) {
               <div className="text-xs text-muted-foreground mt-1">{formatDate(transaction.date)}</div>
             </div>
             <div className="flex items-center gap-3">
-              <div className={`text-xl font-bold ${transaction.type === "income" ? "text-green-400" : "text-red-400"}`}>
-                {transaction.type === "income" ? "+" : "-"}৳{Number.parseFloat(transaction.amount).toFixed(2)}
+              <div
+                className={`text-xl font-bold ${transaction.type === "income" || transaction.type === "earnings" ? "text-green-400" : "text-red-400"}`}
+              >
+                {transaction.type === "income" || transaction.type === "earnings" ? "+" : "-"}৳
+                {Number.parseFloat(transaction.amount).toFixed(2)}
               </div>
               <Button
                 variant="ghost"

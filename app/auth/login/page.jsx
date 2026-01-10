@@ -1,26 +1,26 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from "react"
+import { createClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState("")
   const router = useRouter()
   const supabase = createClient()
 
   async function handleLogin(e) {
     e.preventDefault()
     setLoading(true)
-    setError('')
+    setError("")
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -31,72 +31,73 @@ export default function LoginPage() {
       if (error) throw error
 
       if (data?.user) {
-        router.push('/dashboard')
+        router.push("/dashboard")
         router.refresh()
       }
     } catch (err) {
       setError(err.message)
+    } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className='min-h-screen flex items-center justify-center p-4'>
-      <Card className='w-full max-w-md glass-card border-primary/20'>
-        <CardHeader className='space-y-2 text-center'>
-          <CardTitle className='text-3xl font-bold text-primary'>XPENSE</CardTitle>
-          <CardDescription className='text-foreground/80'>Login to your account</CardDescription>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-md glass-card border-primary/20">
+        <CardHeader className="space-y-2 text-center">
+          <CardTitle className="text-3xl font-bold text-primary">XPENSE</CardTitle>
+          <CardDescription className="text-foreground/80">Login to your account</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className='space-y-4'>
+          <form onSubmit={handleLogin} className="space-y-4">
             {error && (
-              <div className='p-3 rounded bg-destructive/10 border border-destructive text-destructive text-sm'>
+              <div className="p-3 rounded bg-destructive/10 border border-destructive text-destructive text-sm">
                 {error}
               </div>
             )}
 
-            <div className='space-y-2'>
-              <Label htmlFor='email' className='text-foreground'>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-foreground">
                 Email
               </Label>
               <Input
-                id='email'
-                type='email'
-                placeholder='your@email.com'
+                id="email"
+                type="email"
+                placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className='bg-background/50 border-primary/20 text-foreground'
+                className="bg-background/50 border-primary/20 text-foreground"
               />
             </div>
 
-            <div className='space-y-2'>
-              <Label htmlFor='password' className='text-foreground'>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-foreground">
                 Password
               </Label>
               <Input
-                id='password'
-                type='password'
-                placeholder='••••••••'
+                id="password"
+                type="password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className='bg-background/50 border-primary/20 text-foreground'
+                className="bg-background/50 border-primary/20 text-foreground"
               />
             </div>
 
             <Button
-              type='submit'
-              className='w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold flex items-center justify-center'
+              type="submit"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
               disabled={loading}
             >
-              {loading ? <div className='loader'></div> : 'Login'}
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </form>
 
-          <div className='mt-4 text-center text-sm'>
-            <span className='text-muted-foreground'>Don't have an account? </span>
-            <Link href='/auth/signup' className='text-primary hover:underline font-medium'>
+          <div className="mt-4 text-center text-sm">
+            <span className="text-muted-foreground">Don't have an account? </span>
+            <Link href="/auth/signup" className="text-primary hover:underline font-medium">
               Sign Up
             </Link>
           </div>

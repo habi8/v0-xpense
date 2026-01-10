@@ -9,13 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const EXPENSE_CATEGORIES = {
-  transport: ["Bus", "CNG", "Rickshaw", "Uber", "Train", "Other","Pathao"],
+  transport: ["Bus", "CNG", "Rickshaw", "Uber", "Train", "Other"],
   food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Restaurant", "Groceries", "Other"],
-  visit: ["Movie", "Park", "Museum", "Friend's place","relative's house","Shopping mall", "Other"],
+  visit: ["Movie", "Park", "Museum", "Friend's place", "Shopping mall", "Other"],
   lending: ["Family", "Friend", "Charity", "Gift", "Other"],
   helped: ["Family help", "Friend help", "Neighbor", "Other"],
   tour: ["Hotel", "Travel tickets", "Food", "Activities", "Souvenirs", "Other"],
-  bills: ["Electricity", "Water", "Gas", "Internet", "Phone", "Rent","MRT", "Other"],
+  bills: ["Electricity", "Water", "Gas", "Internet", "Phone", "Rent", "Other"],
   shopping: ["Clothing", "Electronics", "Household", "Personal care", "Other"],
   others: ["Medicine", "Entertainment", "Miscellaneous", "Other"],
 }
@@ -25,6 +25,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
   const [paymentMethod, setPaymentMethod] = useState("cash")
   const [amount, setAmount] = useState("")
   const [category, setCategory] = useState("")
+  const [customCategory, setCustomCategory] = useState("")
   const [details, setDetails] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -37,12 +38,15 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
     setError("")
 
     try {
+      const finalCategory = category === "others" && customCategory ? customCategory : category
+      const dbType = type === "earnings" ? "income" : type
+
       const { error } = await supabase.from("transactions").insert({
         user_id: userId,
-        type,
+        type: dbType,
         payment_method: paymentMethod,
         amount: Number.parseFloat(amount),
-        category,
+        category: finalCategory,
         details: details || null,
         date: new Date().toISOString(),
       })
@@ -54,6 +58,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
       // Reset form
       setAmount("")
       setCategory("")
+      setCustomCategory("")
       setDetails("")
     } catch (err) {
       setError(err.message)
@@ -63,7 +68,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
   }
 
   return (
-    <Card className="glass-card border-primary/20 bg-card">
+    <Card className="glass-card border-primary/20">
       <CardHeader>
         <CardTitle className="text-primary">Add New Transaction</CardTitle>
       </CardHeader>
@@ -94,16 +99,16 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
               </Button>
               <Button
                 type="button"
-                variant={type === "income" ? "default" : "outline"}
+                variant={type === "earnings" ? "default" : "outline"}
                 onClick={() => {
-                  setType("income")
+                  setType("earnings")
                   setCategory("")
                 }}
                 className={
-                  type === "income" ? "bg-primary text-primary-foreground" : "border-primary/20 text-foreground"
+                  type === "earnings" ? "bg-primary text-primary-foreground" : "border-primary/20 text-foreground"
                 }
               >
-                Income
+                Earnings
               </Button>
             </div>
           </div>
@@ -158,11 +163,18 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
               Category
             </Label>
             {type === "expense" ? (
-              <Select value={category} onValueChange={setCategory} required>
+              <Select
+                value={category}
+                onValueChange={(val) => {
+                  setCategory(val)
+                  setCustomCategory("")
+                }}
+                required
+              >
                 <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent className="bg-black text-foreground border-primary/20">
+                <SelectContent className="bg-black border-primary/20">
                   <SelectItem value="transport">Transport</SelectItem>
                   <SelectItem value="food">Food</SelectItem>
                   <SelectItem value="visit">Visit</SelectItem>
@@ -187,8 +199,25 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
             )}
           </div>
 
+          {type === "expense" && category === "others" && (
+            <div className="space-y-2">
+              <Label htmlFor="customCategory" className="text-foreground">
+                Custom Category Name
+              </Label>
+              <Input
+                id="customCategory"
+                type="text"
+                placeholder="e.g., Haircut, Books, etc."
+                value={customCategory}
+                onChange={(e) => setCustomCategory(e.target.value)}
+                required
+                className="bg-background/50 border-primary/20 text-foreground"
+              />
+            </div>
+          )}
+
           {/* Details */}
-          {type === "expense" && category && EXPENSE_CATEGORIES[category] ? (
+          {type === "expense" && category && category !== "others" && EXPENSE_CATEGORIES[category] ? (
             <div className="space-y-2">
               <Label htmlFor="details" className="text-foreground">
                 Details
@@ -197,7 +226,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
                 <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                   <SelectValue placeholder="Select or skip" />
                 </SelectTrigger>
-                <SelectContent className="bg-black text-foreground border-primary/20">
+                <SelectContent className="bg-black border-primary/20">
                   {EXPENSE_CATEGORIES[category].map((item) => (
                     <SelectItem key={item} value={item}>
                       {item}
