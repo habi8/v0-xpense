@@ -205,13 +205,15 @@ export default function DashboardClient({ user, initialTransactions }) {
           </div>
         </div>
       </div>
+  )
+      
+{/* Footer */}
 
-      {/* Footer */}
       <footer className={`bg-background/95 backdrop-blur-sm border-t border-primary/20 p-4 md:p-6 mt-auto ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
           © 2026 XPENSE by habib
         </div>
       </footer>
-    </div>
-  )
+    
+  
 }
