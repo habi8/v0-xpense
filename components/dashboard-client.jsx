@@ -87,7 +87,7 @@ export default function DashboardClient({ user, initialTransactions }) {
 
       {/* Fixed Tabs - positioned below header */}
       <div
-        className={`fixed top-[80px] md:top-[110px] left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+        className={`fixed top-[80px] md:top-[116px] left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
       >
         <div className="w-full px-4 md:px-8 py-3">
           <div className="max-w-6xl mx-auto">
