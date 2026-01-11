@@ -148,7 +148,7 @@ export default function YearlyReports({ transactions }) {
               <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-primary/20">
+              <SelectContent className="bg-black border-primary/20">
                 {availableYears.map((year) => (
                   <SelectItem key={year} value={year}>
                     {year}
