@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -20,6 +20,14 @@ export default function DashboardClient({ user, initialTransactions }) {
   const [loggingOut, setLoggingOut] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+
+  // Scroll to top when tab changes
+  useEffect(() => {
+    const contentDiv = document.querySelector('[data-scroll-container]')
+    if (contentDiv) {
+      contentDiv.scrollTop = 0
+    }
+  }, [activeTab])
 
   async function handleLogout() {
     setLoggingOut(true)
@@ -102,7 +110,7 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 overflow-y-auto pt-16 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div className={`flex-1 overflow-y-auto pt-14 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`} data-scroll-container>
         <div className="p-4 md:p-8">
           <div className="max-w-6xl mx-auto space-y-6">
             {/* Tab Content */}
