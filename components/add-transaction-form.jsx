@@ -38,6 +38,14 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
     setError("")
 
     try {
+      const parsedAmount = Number.parseFloat(amount)
+      
+      if (!amount || parsedAmount <= 0) {
+        setError("Amount must be greater than 0")
+        setLoading(false)
+        return
+      }
+
       const finalCategory = category === "others" && customCategory ? customCategory : category
       const dbType = type === "earnings" ? "income" : type
 
@@ -45,7 +53,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
         user_id: userId,
         type: dbType,
         payment_method: paymentMethod,
-        amount: Number.parseFloat(amount),
+        amount: parsedAmount,
         category: finalCategory,
         details: details || null,
         date: new Date().toISOString(),
@@ -149,6 +157,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
               id="amount"
               type="number"
               step="0.01"
+              min="0.01"
               placeholder="0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
