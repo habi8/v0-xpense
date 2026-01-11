@@ -84,7 +84,7 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Fixed Tabs */}
-      <div className={`fixed top-24 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div className={`fixed top-30 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <div className="w-full px-4 md:px-8 py-4">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
