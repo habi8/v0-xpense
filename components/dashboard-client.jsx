@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AddTransactionForm from "@/components/add-transaction-form"
 import TransactionsList from "@/components/transactions-list"
 import MonthlyReports from "@/components/monthly-reports"
@@ -24,7 +24,7 @@ export default function DashboardClient({ user, initialTransactions }) {
   // Scroll to top when tab changes
   useEffect(() => {
     setTimeout(() => {
-      const contentDiv = document.querySelector('[data-scroll-container]')
+      const contentDiv = document.querySelector("[data-scroll-container]")
       if (contentDiv) {
         contentDiv.scrollTop = 0
       }
@@ -64,9 +64,11 @@ export default function DashboardClient({ user, initialTransactions }) {
   return (
     <div className="min-h-screen flex flex-col">
       {loggingOut && <Loader message="Signing out..." />}
-      
+
       {/* Fixed Header */}
-      <div className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div
+        className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+      >
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold text-primary">XPENSE</h1>
@@ -84,8 +86,10 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Fixed Tabs */}
-      <div className={`fixed top-30 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
-        <div className="w-full px-4 md:px-8 py-4">
+      <div
+        className={`sticky top-[86px] md:top-[108px] z-40 bg-background/95 backdrop-blur-sm border-b border-primary/10 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+      >
+        <div className="w-full px-4 md:px-8 py-0">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
               <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
@@ -114,7 +118,10 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 overflow-y-auto pt-14 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`} data-scroll-container>
+      <div
+        className={`flex-1 overflow-y-auto pt-0 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+        data-scroll-container
+      >
         <div className="p-4 md:p-8">
           <div className="max-w-6xl mx-auto space-y-6">
             {/* Tab Content */}
@@ -220,10 +227,10 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Footer */}
-      <footer className={`bg-background/95 backdrop-blur-sm border-t border-primary/20 p-4 md:p-6 mt-auto ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
-        <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          © 2026 XPENSE by habib
-        </div>
+      <footer
+        className={`bg-background/95 backdrop-blur-sm border-t border-primary/20 p-4 md:p-6 mt-auto ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+      >
+        <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">© 2026 XPENSE by habib</div>
       </footer>
     </div>
   )
