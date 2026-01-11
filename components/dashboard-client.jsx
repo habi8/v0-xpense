@@ -162,7 +162,29 @@ export default function DashboardClient({ user, initialTransactions }) {
                       </Card>
                     </div>
 
-                    {/* Add Transaction Button */}
+                    {/* Reports Card */}
+                    <Card
+                      className="glass-card border-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
+                      onClick={() => setActiveTab("reports")}
+                    >
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <BookOpen className="w-6 h-6 text-primary" />
+                            <div>
+                              <CardTitle className="text-lg">Reports</CardTitle>
+                              <CardDescription className="text-foreground/60 text-sm">
+                                View monthly and yearly reports
+                              </CardDescription>
+                            </div>
+                          </div>
+                          <BarChart3 className="w-6 h-6 text-primary/40" />
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  </div>
+
+                  {/* Add Transaction Button */}
                   {!showForm && (
                     <Button
                       onClick={() => setShowForm(true)}
