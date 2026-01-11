@@ -64,7 +64,7 @@ export default function DashboardClient({ user, initialTransactions }) {
       {loggingOut && <Loader message="Signing out..." />}
       
       {/* Fixed Header */}
-      <div className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-primary/20 p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold text-primary">XPENSE</h1>
@@ -82,30 +82,32 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Fixed Tabs */}
-      <div className={`fixed top-32 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-b border-primary/20 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-4">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
-            <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
-              <TabsTrigger
-                value="dashboard"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-              >
-                Dashboard
-              </TabsTrigger>
-              <TabsTrigger
-                value="reports"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-              >
-                Monthly Reports
-              </TabsTrigger>
-              <TabsTrigger
-                value="yearly"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-              >
-                Yearly Reports
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+      <div className={`fixed top-32 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+        <div className="w-full px-4 md:px-8 py-4">
+          <div className="max-w-6xl mx-auto">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
+              <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
+                <TabsTrigger
+                  value="dashboard"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                >
+                  Dashboard
+                </TabsTrigger>
+                <TabsTrigger
+                  value="reports"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                >
+                  Monthly Reports
+                </TabsTrigger>
+                <TabsTrigger
+                  value="yearly"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                >
+                  Yearly Reports
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
         </div>
       </div>
 
