@@ -74,7 +74,7 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Fixed Tabs */}
-      <div className={`fixed top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-b border-primary/20 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div className={`fixed top-24 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-b border-primary/20 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
             <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
@@ -102,7 +102,7 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 overflow-y-auto pt-32 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div className={`flex-1 overflow-y-auto pt-44 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <div className="p-4 md:p-8">
           <div className="max-w-6xl mx-auto space-y-6">
             {/* Tab Content */}
