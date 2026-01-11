@@ -6,15 +6,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts"
 
 const CATEGORY_COLORS = {
-  transport: "hsl(200 100% 50%)",
-  food: "hsl(10 100% 60%)",
-  visit: "hsl(280 100% 60%)",
-  lending: "hsl(40 100% 50%)",
-  helped: "hsl(120 100% 50%)",
-  tour: "hsl(350 100% 50%)",
-  bills: "hsl(180 100% 40%)",
-  shopping: "hsl(300 100% 50%)",
-  others: "hsl(60 100% 50%)",
+  transport: "hsl(200 70% 45%)",
+  food: "hsl(10 70% 50%)",
+  visit: "hsl(280 60% 50%)",
+  lending: "hsl(40 70% 45%)",
+  helped: "hsl(120 60% 45%)",
+  tour: "hsl(350 65% 48%)",
+  bills: "hsl(180 70% 40%)",
+  shopping: "hsl(300 55% 48%)",
+  others: "hsl(60 65% 45%)",
 }
 
 const CHART_COLORS = [
