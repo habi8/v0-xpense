@@ -74,30 +74,37 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
-        <div className="max-w-6xl mx-auto space-y-6">
+      <div className={`flex-1 overflow-y-auto ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+        <div className="p-4 md:p-8">
+          <div className="max-w-6xl mx-auto space-y-6">
+            {/* Sticky Tabs */}
+            <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-primary/20 -mx-4 md:-mx-8 px-4 md:px-8 py-4">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
+                <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
+                  <TabsTrigger
+                    value="dashboard"
+                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                  >
+                    Dashboard
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="reports"
+                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                  >
+                    Monthly Reports
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="yearly"
+                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                  >
+                    Yearly Reports
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300 sticky top-24 z-40 bg-background/95 backdrop-blur-sm border-b border-primary/20 -mx-4 md:-mx-8 px-4 md:px-8 py-4">
-          <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
-            <TabsTrigger
-              value="dashboard"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-            >
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger
-              value="reports"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-            >
-              Monthly Reports
-            </TabsTrigger>
-            <TabsTrigger
-              value="yearly"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-            >
-              Yearly Reports
-            </TabsTrigger>
-          </TabsList>
+            {/* Tab Content */}
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
 
           {/* Dashboard Tab */}
           <TabsContent value="dashboard" className="space-y-6 animate-fadeIn">
