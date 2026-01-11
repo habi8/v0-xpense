@@ -52,11 +52,12 @@ export default function DashboardClient({ user, initialTransactions }) {
   const balance = totalEarnings - totalExpense
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen flex flex-col">
       {loggingOut && <Loader message="Signing out..." />}
-      <div className={`max-w-6xl mx-auto space-y-6 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
-        {/* Header */}
-        <div className="flex items-center justify-between">
+      
+      {/* Fixed Header */}
+      <div className={`sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-primary/20 p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold text-primary">XPENSE</h1>
             <p className="text-muted-foreground">{user.email}</p>
@@ -70,8 +71,13 @@ export default function DashboardClient({ user, initialTransactions }) {
             {loggingOut ? "Signing out..." : "Logout"}
           </Button>
         </div>
+      </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
+      {/* Main Content */}
+      <div className={`flex-1 p-4 md:p-8 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+        <div className="max-w-6xl mx-auto space-y-6">
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300 sticky top-24 z-40 bg-background/95 backdrop-blur-sm border-b border-primary/20 -mx-4 md:-mx-8 px-4 md:px-8 py-4">
           <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
             <TabsTrigger
               value="dashboard"
@@ -183,7 +189,15 @@ export default function DashboardClient({ user, initialTransactions }) {
             <YearlyReports transactions={transactions} />
           </TabsContent>
         </Tabs>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className={`bg-background/95 backdrop-blur-sm border-t border-primary/20 p-4 md:p-6 mt-auto ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+        <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
+          © 2026 XPENSE by habib
+        </div>
+      </footer>
     </div>
   )
 }
