@@ -104,98 +104,105 @@ export default function DashboardClient({ user, initialTransactions }) {
             </div>
 
             {/* Tab Content */}
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
+            <div>
+              {/* Dashboard Tab */}
+              {activeTab === "dashboard" && (
+                <div className="space-y-6 animate-fadeIn">
+                  {/* Summary Cards */}
+                  <div className="grid gap-4">
+                    {/* Current Balance - Full Width */}
+                    <Card className="glass-card border-primary/20">
+                      <CardHeader className="pb-3">
+                        <CardDescription className="text-foreground/60">Current Balance</CardDescription>
+                        <CardTitle className="text-5xl text-primary">৳{balance.toFixed(2)}</CardTitle>
+                      </CardHeader>
+                    </Card>
 
-          {/* Dashboard Tab */}
-          <TabsContent value="dashboard" className="space-y-6 animate-fadeIn">
-            {/* Summary Cards */}
-            <div className="grid gap-4">
-              {/* Current Balance - Full Width */}
-              <Card className="glass-card border-primary/20">
-                <CardHeader className="pb-3">
-                  <CardDescription className="text-foreground/60">Current Balance</CardDescription>
-                  <CardTitle className="text-5xl text-primary">৳{balance.toFixed(2)}</CardTitle>
-                </CardHeader>
-              </Card>
+                    {/* Earnings and Expense Cards Side by Side */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <Card className="glass-card border-primary/20">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center justify-between">
+                            <CardDescription className="text-foreground/60">Total Earnings</CardDescription>
+                            <TrendingUp className="w-5 h-5 text-green-400" />
+                          </div>
+                          <CardTitle className="text-2xl text-green-400">৳{totalEarnings.toFixed(2)}</CardTitle>
+                        </CardHeader>
+                      </Card>
 
-              {/* Earnings and Expense Cards Side by Side */}
-              <div className="grid grid-cols-2 gap-4">
-                <Card className="glass-card border-primary/20">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardDescription className="text-foreground/60">Total Earnings</CardDescription>
-                      <TrendingUp className="w-5 h-5 text-green-400" />
+                      <Card className="glass-card border-primary/20">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center justify-between">
+                            <CardDescription className="text-foreground/60">Total Expense</CardDescription>
+                            <TrendingDown className="w-5 h-5 text-red-400" />
+                          </div>
+                          <CardTitle className="text-2xl text-red-400">৳{totalExpense.toFixed(2)}</CardTitle>
+                        </CardHeader>
+                      </Card>
                     </div>
-                    <CardTitle className="text-2xl text-green-400">৳{totalEarnings.toFixed(2)}</CardTitle>
-                  </CardHeader>
-                </Card>
 
-                <Card className="glass-card border-primary/20">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardDescription className="text-foreground/60">Total Expense</CardDescription>
-                      <TrendingDown className="w-5 h-5 text-red-400" />
-                    </div>
-                    <CardTitle className="text-2xl text-red-400">৳{totalExpense.toFixed(2)}</CardTitle>
-                  </CardHeader>
-                </Card>
-              </div>
-
-              {/* Reports Card */}
-              <Card
-                className="glass-card border-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
-                onClick={() => setActiveTab("reports")}
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="w-6 h-6 text-primary" />
-                      <div>
-                        <CardTitle className="text-lg">Reports</CardTitle>
-                        <CardDescription className="text-foreground/60 text-sm">
-                          View monthly and yearly reports
-                        </CardDescription>
-                      </div>
-                    </div>
-                    <BarChart3 className="w-6 h-6 text-primary/40" />
+                    {/* Reports Card */}
+                    <Card
+                      className="glass-card border-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
+                      onClick={() => setActiveTab("reports")}
+                    >
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <BookOpen className="w-6 h-6 text-primary" />
+                            <div>
+                              <CardTitle className="text-lg">Reports</CardTitle>
+                              <CardDescription className="text-foreground/60 text-sm">
+                                View monthly and yearly reports
+                              </CardDescription>
+                            </div>
+                          </div>
+                          <BarChart3 className="w-6 h-6 text-primary/40" />
+                        </div>
+                      </CardHeader>
+                    </Card>
                   </div>
-                </CardHeader>
-              </Card>
+
+                  {/* Add Transaction Button */}
+                  {!showForm && (
+                    <Button
+                      onClick={() => setShowForm(true)}
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg"
+                    >
+                      + Add Transaction
+                    </Button>
+                  )}
+
+                  {/* Add Transaction Form */}
+                  {showForm && (
+                    <AddTransactionForm
+                      userId={user.id}
+                      onSuccess={handleTransactionAdded}
+                      onCancel={() => setShowForm(false)}
+                    />
+                  )}
+
+                  {/* Transactions List */}
+                  <TransactionsList transactions={transactions} onDelete={refreshTransactions} />
+                </div>
+              )}
+
+              {/* Reports Tab */}
+              {activeTab === "reports" && (
+                <div className="animate-fadeIn">
+                  <MonthlyReports transactions={transactions} />
+                </div>
+              )}
+
+              {/* Yearly Reports Tab */}
+              {activeTab === "yearly" && (
+                <div className="animate-fadeIn">
+                  <YearlyReports transactions={transactions} />
+                </div>
+              )}
             </div>
-
-            {/* Add Transaction Button */}
-            {!showForm && (
-              <Button
-                onClick={() => setShowForm(true)}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg"
-              >
-                + Add Transaction
-              </Button>
-            )}
-
-            {/* Add Transaction Form */}
-            {showForm && (
-              <AddTransactionForm
-                userId={user.id}
-                onSuccess={handleTransactionAdded}
-                onCancel={() => setShowForm(false)}
-              />
-            )}
-
-            {/* Transactions List */}
-            <TransactionsList transactions={transactions} onDelete={refreshTransactions} />
-          </TabsContent>
-
-          {/* Reports Tab */}
-          <TabsContent value="reports" className="animate-fadeIn">
-            <MonthlyReports transactions={transactions} />
-          </TabsContent>
-
-          {/* Yearly Reports Tab */}
-          <TabsContent value="yearly" className="animate-fadeIn">
-            <YearlyReports transactions={transactions} />
-          </TabsContent>
-        </Tabs>
+            </div>
+          </div>
         </div>
       </div>
 
