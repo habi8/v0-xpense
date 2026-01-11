@@ -87,7 +87,7 @@ export default function DashboardClient({ user, initialTransactions }) {
 
       {/* Fixed Tabs */}
       <div
-        className={`fixed top-[108px] md:top-[108px] left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+        className={`fixed top-20 md:top-28 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
       >
         <div className="w-full px-4 md:px-8 py-0">
           <div className="max-w-6xl mx-auto">
@@ -119,7 +119,7 @@ export default function DashboardClient({ user, initialTransactions }) {
 
       {/* Main Content */}
       <div
-        className={`flex-1 overflow-y-auto pt-0 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+        className={`flex-1 overflow-y-auto pt-32 md:pt-40 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
         data-scroll-container
       >
         <div className="p-4 md:p-8">
