@@ -102,7 +102,7 @@ export default function DashboardClient({ user, initialTransactions }) {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 overflow-y-auto pt-32 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
+      <div className={`flex-1 overflow-y-auto pt-16 ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}>
         <div className="p-4 md:p-8">
           <div className="max-w-6xl mx-auto space-y-6">
             {/* Tab Content */}
