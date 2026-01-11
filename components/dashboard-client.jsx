@@ -85,11 +85,11 @@ export default function DashboardClient({ user, initialTransactions }) {
         </div>
       </div>
 
-      {/* Fixed Tabs */}
+      {/* Fixed Tabs - positioned below header */}
       <div
         className={`fixed top-[76px] md:top-[108px] left-0 right-0 z-40 bg-background/95 backdrop-blur-sm ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
       >
-        <div className="w-full px-4 md:px-8 py-0">
+        <div className="w-full px-4 md:px-8 py-3">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full transition-all duration-300">
               <TabsList className="grid w-full grid-cols-3 bg-secondary/20 border border-primary/20">
@@ -117,9 +117,9 @@ export default function DashboardClient({ user, initialTransactions }) {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content - starts below both header and tabs */}
       <div
-        className={`flex-1 overflow-y-auto pt-[140px] md:pt-[168px] ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+        className={`flex-1 overflow-y-auto pt-[132px] md:pt-[160px] ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
         data-scroll-container
       >
         <div className="p-4 md:p-8">
