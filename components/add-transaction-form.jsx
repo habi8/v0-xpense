@@ -39,25 +39,34 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
 
     try {
       const parsedAmount = Number.parseFloat(amount)
-      
+
       if (!amount || parsedAmount <= 0) {
         setError("Amount must be greater than 0")
         setLoading(false)
         return
       }
 
-      const finalCategory = category === "others" && customCategory ? customCategory : category
-      const dbType = type === "earnings" ? "income" : type
+      let dbType = type
+      if (type === "earnings") {
+        dbType = "income"
+      }
 
-      const { error } = await supabase.from("transactions").insert({
+      const finalCategory = category === "others" && customCategory ? customCategory : category
+      const transactionData = {
         user_id: userId,
         type: dbType,
-        payment_method: paymentMethod,
         amount: parsedAmount,
-        category: finalCategory,
-        details: details || null,
         date: new Date().toISOString(),
-      })
+        payment_method: paymentMethod || "cash",
+        category: finalCategory || "uncategorized",
+      }
+
+      if (type === "bank_deposit" || type === "bank_withdrawal") {
+        transactionData.payment_method = "bank"
+        transactionData.category = "bank"
+      }
+
+      const { error } = await supabase.from("transactions").insert(transactionData)
 
       if (error) throw error
 
@@ -75,6 +84,9 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
     }
   }
 
+  // Show simplified form for bank transactions
+  const isBankTransaction = type === "bank_deposit" || type === "bank_withdrawal"
+
   return (
     <Card className="glass-card border-primary/20">
       <CardHeader>
@@ -91,7 +103,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
           {/* Type Selection */}
           <div className="space-y-2">
             <Label className="text-foreground">Transaction Type</Label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <Button
                 type="button"
                 variant={type === "expense" ? "default" : "outline"}
@@ -118,35 +130,71 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
               >
                 Earnings
               </Button>
+              <Button
+                type="button"
+                variant={type === "bank_deposit" ? "default" : "outline"}
+                onClick={() => {
+                  setType("bank_deposit")
+                  setCategory("")
+                  setPaymentMethod("")
+                }}
+                className={
+                  type === "bank_deposit" ? "bg-primary text-primary-foreground" : "border-primary/20 text-foreground"
+                }
+              >
+                Bank Deposit
+              </Button>
+              <Button
+                type="button"
+                variant={type === "bank_withdrawal" ? "default" : "outline"}
+                onClick={() => {
+                  setType("bank_withdrawal")
+                  setCategory("")
+                  setPaymentMethod("")
+                }}
+                className={
+                  type === "bank_withdrawal"
+                    ? "bg-primary text-primary-foreground"
+                    : "border-primary/20 text-foreground"
+                }
+              >
+                Bank Withdrawal
+              </Button>
             </div>
           </div>
 
-          {/* Payment Method */}
-          <div className="space-y-2">
-            <Label className="text-foreground">Payment Method</Label>
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                type="button"
-                variant={paymentMethod === "cash" ? "default" : "outline"}
-                onClick={() => setPaymentMethod("cash")}
-                className={
-                  paymentMethod === "cash" ? "bg-primary text-primary-foreground" : "border-primary/20 text-foreground"
-                }
-              >
-                Cash
-              </Button>
-              <Button
-                type="button"
-                variant={paymentMethod === "bkash" ? "default" : "outline"}
-                onClick={() => setPaymentMethod("bkash")}
-                className={
-                  paymentMethod === "bkash" ? "bg-primary text-primary-foreground" : "border-primary/20 text-foreground"
-                }
-              >
-                bKash
-              </Button>
+          {/* Payment Method - Only show for non-bank transactions */}
+          {!isBankTransaction && (
+            <div className="space-y-2">
+              <Label className="text-foreground">Payment Method</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  type="button"
+                  variant={paymentMethod === "cash" ? "default" : "outline"}
+                  onClick={() => setPaymentMethod("cash")}
+                  className={
+                    paymentMethod === "cash"
+                      ? "bg-primary text-primary-foreground"
+                      : "border-primary/20 text-foreground"
+                  }
+                >
+                  Cash
+                </Button>
+                <Button
+                  type="button"
+                  variant={paymentMethod === "bkash" ? "default" : "outline"}
+                  onClick={() => setPaymentMethod("bkash")}
+                  className={
+                    paymentMethod === "bkash"
+                      ? "bg-primary text-primary-foreground"
+                      : "border-primary/20 text-foreground"
+                  }
+                >
+                  bKash
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Amount */}
           <div className="space-y-2">
@@ -166,98 +214,102 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
             />
           </div>
 
-          {/* Category */}
-          <div className="space-y-2">
-            <Label htmlFor="category" className="text-foreground">
-              Category
-            </Label>
-            {type === "expense" ? (
-              <Select
-                value={category}
-                onValueChange={(val) => {
-                  setCategory(val)
-                  setCustomCategory("")
-                }}
-                required
-              >
-                <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent className="bg-black border-primary/20">
-                  <SelectItem value="transport">Transport</SelectItem>
-                  <SelectItem value="food">Food</SelectItem>
-                  <SelectItem value="visit">Visit</SelectItem>
-                  <SelectItem value="lending">Lending Money</SelectItem>
-                  <SelectItem value="helped">Helped With</SelectItem>
-                  <SelectItem value="tour">Tour</SelectItem>
-                  <SelectItem value="bills">Bills</SelectItem>
-                  <SelectItem value="shopping">Shopping</SelectItem>
-                  <SelectItem value="others">Others</SelectItem>
-                </SelectContent>
-              </Select>
-            ) : (
-              <Input
-                id="category"
-                type="text"
-                placeholder="e.g., Salary, Freelance, Gift"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                required
-                className="bg-background/50 border-primary/20 text-foreground"
-              />
-            )}
-          </div>
+          {/* Category - Only show for non-bank transactions */}
+          {!isBankTransaction && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="category" className="text-foreground">
+                  Category
+                </Label>
+                {type === "expense" ? (
+                  <Select
+                    value={category}
+                    onValueChange={(val) => {
+                      setCategory(val)
+                      setCustomCategory("")
+                    }}
+                    required
+                  >
+                    <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-black border-primary/20">
+                      <SelectItem value="transport">Transport</SelectItem>
+                      <SelectItem value="food">Food</SelectItem>
+                      <SelectItem value="visit">Visit</SelectItem>
+                      <SelectItem value="lending">Lending Money</SelectItem>
+                      <SelectItem value="helped">Helped With</SelectItem>
+                      <SelectItem value="tour">Tour</SelectItem>
+                      <SelectItem value="bills">Bills</SelectItem>
+                      <SelectItem value="shopping">Shopping</SelectItem>
+                      <SelectItem value="others">Others</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <Input
+                    id="category"
+                    type="text"
+                    placeholder="e.g., Salary, Freelance, Gift"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    required
+                    className="bg-background/50 border-primary/20 text-foreground"
+                  />
+                )}
+              </div>
 
-          {type === "expense" && category === "others" && (
-            <div className="space-y-2">
-              <Label htmlFor="customCategory" className="text-foreground">
-                Custom Category Name
-              </Label>
-              <Input
-                id="customCategory"
-                type="text"
-                placeholder="e.g., Haircut, Books, etc."
-                value={customCategory}
-                onChange={(e) => setCustomCategory(e.target.value)}
-                required
-                className="bg-background/50 border-primary/20 text-foreground"
-              />
-            </div>
-          )}
+              {type === "expense" && category === "others" && (
+                <div className="space-y-2">
+                  <Label htmlFor="customCategory" className="text-foreground">
+                    Custom Category Name
+                  </Label>
+                  <Input
+                    id="customCategory"
+                    type="text"
+                    placeholder="e.g., Haircut, Books, etc."
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                    required
+                    className="bg-background/50 border-primary/20 text-foreground"
+                  />
+                </div>
+              )}
 
-          {/* Details */}
-          {type === "expense" && category && category !== "others" && EXPENSE_CATEGORIES[category] ? (
-            <div className="space-y-2">
-              <Label htmlFor="details" className="text-foreground">
-                Details
-              </Label>
-              <Select value={details} onValueChange={setDetails}>
-                <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
-                  <SelectValue placeholder="Select or skip" />
-                </SelectTrigger>
-                <SelectContent className="bg-black border-primary/20">
-                  {EXPENSE_CATEGORIES[category].map((item) => (
-                    <SelectItem key={item} value={item}>
-                      {item}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <Label htmlFor="details" className="text-foreground">
-                Details (Optional)
-              </Label>
-              <Input
-                id="details"
-                type="text"
-                placeholder="Add more details..."
-                value={details}
-                onChange={(e) => setDetails(e.target.value)}
-                className="bg-background/50 border-primary/20 text-foreground"
-              />
-            </div>
+              {/* Details */}
+              {type === "expense" && category && category !== "others" && EXPENSE_CATEGORIES[category] ? (
+                <div className="space-y-2">
+                  <Label htmlFor="details" className="text-foreground">
+                    Details
+                  </Label>
+                  <Select value={details} onValueChange={setDetails}>
+                    <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
+                      <SelectValue placeholder="Select or skip" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-black border-primary/20">
+                      {EXPENSE_CATEGORIES[category].map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Label htmlFor="details" className="text-foreground">
+                    Details (Optional)
+                  </Label>
+                  <Input
+                    id="details"
+                    type="text"
+                    placeholder="Add more details..."
+                    value={details}
+                    onChange={(e) => setDetails(e.target.value)}
+                    className="bg-background/50 border-primary/20 text-foreground"
+                  />
+                </div>
+              )}
+            </>
           )}
 
           {/* Buttons */}

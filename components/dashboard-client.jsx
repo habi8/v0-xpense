@@ -11,7 +11,7 @@ import TransactionsList from "@/components/transactions-list"
 import MonthlyReports from "@/components/monthly-reports"
 import YearlyReports from "@/components/yearly-reports"
 import Loader from "@/components/loader"
-import { BarChart3, TrendingUp, TrendingDown, BookOpen } from "lucide-react"
+import { TrendingUp, TrendingDown } from "lucide-react"
 
 export default function DashboardClient({ user, initialTransactions }) {
   const [transactions, setTransactions] = useState(initialTransactions)
@@ -59,7 +59,16 @@ export default function DashboardClient({ user, initialTransactions }) {
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0)
 
-  const balance = totalEarnings - totalExpense
+  const bankDeposits = transactions
+    .filter((t) => t.type === "bank_deposit")
+    .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0)
+
+  const bankWithdrawals = transactions
+    .filter((t) => t.type === "bank_withdrawal")
+    .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0)
+
+  // Bank deposits reduce current balance, withdrawals increase it
+  const balance = totalEarnings - totalExpense - bankDeposits + bankWithdrawals
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -162,49 +171,28 @@ export default function DashboardClient({ user, initialTransactions }) {
                       </Card>
                     </div>
 
-                    {/* Reports Card */}
-                    <Card
-                      className="glass-card border-primary/20 hover:border-primary/40 transition-colors cursor-pointer"
-                      onClick={() => setActiveTab("reports")}
-                    >
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <BookOpen className="w-6 h-6 text-primary" />
-                            <div>
-                              <CardTitle className="text-lg">Reports</CardTitle>
-                              <CardDescription className="text-foreground/60 text-sm">
-                                View monthly and yearly reports
-                              </CardDescription>
-                            </div>
-                          </div>
-                          <BarChart3 className="w-6 h-6 text-primary/40" />
-                        </div>
-                      </CardHeader>
-                    </Card>
+                    {/* Add Transaction Button */}
+                    {!showForm && (
+                      <Button
+                        onClick={() => setShowForm(true)}
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg"
+                      >
+                        + Add Transaction
+                      </Button>
+                    )}
+
+                    {/* Add Transaction Form */}
+                    {showForm && (
+                      <AddTransactionForm
+                        userId={user.id}
+                        onSuccess={handleTransactionAdded}
+                        onCancel={() => setShowForm(false)}
+                      />
+                    )}
+
+                    {/* Transactions List */}
+                    <TransactionsList transactions={transactions} onDelete={refreshTransactions} />
                   </div>
-
-                  {/* Add Transaction Button */}
-                  {!showForm && (
-                    <Button
-                      onClick={() => setShowForm(true)}
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg"
-                    >
-                      + Add Transaction
-                    </Button>
-                  )}
-
-                  {/* Add Transaction Form */}
-                  {showForm && (
-                    <AddTransactionForm
-                      userId={user.id}
-                      onSuccess={handleTransactionAdded}
-                      onCancel={() => setShowForm(false)}
-                    />
-                  )}
-
-                  {/* Transactions List */}
-                  <TransactionsList transactions={transactions} onDelete={refreshTransactions} />
                 </div>
               )}
 

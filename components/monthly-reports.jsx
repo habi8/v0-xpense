@@ -15,6 +15,7 @@ const CATEGORY_COLORS = {
   bills: "hsl(180 70% 40%)",
   shopping: "hsl(300 55% 48%)",
   others: "hsl(60 65% 45%)",
+  bank_deposit: "hsl(0 0% 85%)",
 }
 
 const CHART_COLORS = [
@@ -102,15 +103,17 @@ export default function MonthlyReports({ transactions }) {
   const earningsDifferencePercent =
     previousMonthEarnings > 0 ? ((earningsDifference / previousMonthEarnings) * 100).toFixed(1) : 0
 
-  // Prepare pie chart data for expense breakdown
+  // Prepare pie chart data for expense breakdown including bank deposits
   const expenseBreakdown = useMemo(() => {
     const categoryMap = {}
-    monthlyTransactions
-      .filter((t) => t.type === "expense")
-      .forEach((t) => {
+    monthlyTransactions.forEach((t) => {
+      if (t.type === "expense") {
         const cat = t.category || "Uncategorized"
         categoryMap[cat] = (categoryMap[cat] || 0) + Number.parseFloat(t.amount)
-      })
+      } else if (t.type === "bank_deposit") {
+        categoryMap["Bank Deposit"] = (categoryMap["Bank Deposit"] || 0) + Number.parseFloat(t.amount)
+      }
+    })
 
     return Object.entries(categoryMap)
       .map(([name, value]) => ({
@@ -120,10 +123,16 @@ export default function MonthlyReports({ transactions }) {
       .sort((a, b) => b.value - a.value)
   }, [monthlyTransactions])
 
-  // Get top spending category
-  const topSpendingCategory = expenseBreakdown.length > 0 ? expenseBreakdown[0] : null
+  // Get top spending category (exclude bank deposits)
+  const topSpendingCategory =
+    expenseBreakdown.filter((cat) => cat.name !== "Bank Deposit").length > 0
+      ? expenseBreakdown.filter((cat) => cat.name !== "Bank Deposit")[0]
+      : null
 
   function getCategoryColor(categoryName) {
+    if (categoryName === "Bank Deposit") {
+      return CATEGORY_COLORS.bank_deposit
+    }
     const categoryKey = Object.keys(CATEGORY_COLORS).find((key) => key.toLowerCase() === categoryName.toLowerCase())
     return categoryKey ? CATEGORY_COLORS[categoryKey] : CHART_COLORS[Math.floor(Math.random() * CHART_COLORS.length)]
   }
