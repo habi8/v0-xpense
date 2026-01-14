@@ -57,7 +57,8 @@ export default function SignUpPage() {
     setLoading(true)
     setError("")
     try {
-      const callbackUrl = `${window.location.origin}/auth/callback`
+      // This fixes redirect_uri_mismatch errors when app is deployed to Vercel
+      const callbackUrl = "https://v0-xpense-finance.vercel.app/auth/callback"
       console.log("[v0] Google OAuth callback URL:", callbackUrl)
 
       const { error } = await supabase.auth.signInWithOAuth({

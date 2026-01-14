@@ -46,11 +46,13 @@ export default function LoginPage() {
     setLoading(true)
     setError("")
     try {
-      console.log("[v0] Google OAuth initiated from:", window.location.origin)
+      const callbackUrl = "https://v0-xpense-finance.vercel.app/auth/callback"
+      console.log("[v0] Google OAuth callback URL:", callbackUrl)
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: callbackUrl,
         },
       })
       if (error) {
