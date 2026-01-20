@@ -9,14 +9,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const EXPENSE_CATEGORIES = {
-  transport: ["Bus", "CNG", "Rickshaw", "Uber", "Train", "Other"],
-  food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Restaurant", "Groceries", "Other"],
+  transport: ["Bus", "CNG", "Rickshaw", "Uber", "Pathao", "Train", "Other"],
+  food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Restaurant", "Other"],
   visit: ["Movie", "Park", "Museum", "Friend's place", "Shopping mall", "Other"],
+  date: ["Movie", "Restaurant", "Museum", "Exploration", "Other"],
   lending: ["Family", "Friend", "Charity", "Gift", "Other"],
   helped: ["Family help", "Friend help", "Neighbor", "Other"],
   tour: ["Hotel", "Travel tickets", "Food", "Activities", "Souvenirs", "Other"],
-  bills: ["Electricity", "Water", "Gas", "Internet", "Phone", "Rent", "Other"],
-  shopping: ["Clothing", "Electronics", "Household", "Personal care", "Other"],
+  bills: ["Electricity", "Water", "Gas", "Internet", "Phone", "Rent", "MRT", "Other"],
+  shopping: ["Clothing", "Electronics", "Household", "Personal care", "Groceries", "Other"],
   others: ["Medicine", "Entertainment", "Miscellaneous", "Other"],
 }
 
@@ -237,6 +238,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
                       <SelectItem value="transport">Transport</SelectItem>
                       <SelectItem value="food">Food</SelectItem>
                       <SelectItem value="visit">Visit</SelectItem>
+                      <SelectItem value="date">Date</SelectItem>
                       <SelectItem value="lending">Lending Money</SelectItem>
                       <SelectItem value="helped">Helped With</SelectItem>
                       <SelectItem value="tour">Tour</SelectItem>
