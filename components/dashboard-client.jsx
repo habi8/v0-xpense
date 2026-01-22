@@ -128,11 +128,11 @@ export default function DashboardClient({ user, initialTransactions }) {
 
       {/* Main Content - starts below both header and tabs */}
       <div
-        className={`flex-1 overflow-y-auto pt-[132px] md:pt-[160px] ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+        className={`flex-1 overflow-y-auto pt-[150px] md:pt-[180px] ${loggingOut ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
         data-scroll-container
       >
-        <div className="p-4 md:p-8">
-          <div className="max-w-6xl mx-auto space-y-6">
+        <div className="px-4 md:px-8 pb-4 md:pb-8">
+          <div className="max-w-6xl mx-auto space-y-6 w-full">
             {/* Tab Content */}
             <div>
               {/* Dashboard Tab */}

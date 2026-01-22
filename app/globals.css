@@ -121,12 +121,16 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    overflow-y: scroll;
-  }
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
+  }
+}
+
+/* Only show scrollbar gutter on desktop to prevent layout shift */
+@media (min-width: 768px) {
+  html {
+    overflow-y: scroll;
   }
 }
 

@@ -18,6 +18,11 @@ const CATEGORY_COLORS = {
   bank_deposit: "hsl(0 0% 85%)",
 }
 
+const INCOME_COLORS = {
+  salary: "hsl(142 70% 45%)",
+  others: "hsl(45 90% 50%)",
+}
+
 const CHART_COLORS = [
   "hsl(var(--chart-1))",
   "hsl(var(--chart-2))",
@@ -128,6 +133,40 @@ export default function MonthlyReports({ transactions }) {
     expenseBreakdown.filter((cat) => cat.name !== "Bank Deposit").length > 0
       ? expenseBreakdown.filter((cat) => cat.name !== "Bank Deposit")[0]
       : null
+
+  // Prepare pie chart data for income breakdown (Salary vs Others)
+  const incomeBreakdown = useMemo(() => {
+    let salaryTotal = 0
+    let othersTotal = 0
+
+    monthlyTransactions.forEach((t) => {
+      if (t.type === "income" || t.type === "earnings") {
+        const category = (t.category || "").toLowerCase()
+        if (category === "salary") {
+          salaryTotal += Number.parseFloat(t.amount)
+        } else {
+          othersTotal += Number.parseFloat(t.amount)
+        }
+      }
+    })
+
+    const breakdown = []
+    if (salaryTotal > 0) {
+      breakdown.push({ name: "Salary", value: Number.parseFloat(salaryTotal.toFixed(2)) })
+    }
+    if (othersTotal > 0) {
+      breakdown.push({ name: "Others", value: Number.parseFloat(othersTotal.toFixed(2)) })
+    }
+
+    return breakdown
+  }, [monthlyTransactions])
+
+  function getIncomeColor(categoryName) {
+    if (categoryName === "Salary") {
+      return INCOME_COLORS.salary
+    }
+    return INCOME_COLORS.others
+  }
 
   function getCategoryColor(categoryName) {
     if (categoryName === "Bank Deposit") {
@@ -312,6 +351,36 @@ export default function MonthlyReports({ transactions }) {
           </CardContent>
         </Card>
       )}
+
+      {/* Income Breakdown Cards */}
+      <Card className="glass-card border-primary/20">
+        <CardHeader>
+          <CardTitle className="text-green-400">Income Sources</CardTitle>
+          <CardDescription>
+            Modes of income for {months.find((m) => m.value === selectedMonth)?.label} {selectedYear}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
+            <Card className="bg-green-500/10 border-green-500/30">
+              <CardHeader className="pb-2">
+                <CardDescription className="text-green-400/80">Salary</CardDescription>
+                <CardTitle className="text-2xl text-green-400">
+                  ৳{(incomeBreakdown.find((i) => i.name === "Salary")?.value || 0).toFixed(2)}
+                </CardTitle>
+              </CardHeader>
+            </Card>
+            <Card className="bg-yellow-500/10 border-yellow-500/30">
+              <CardHeader className="pb-2">
+                <CardDescription className="text-yellow-400/80">Others</CardDescription>
+                <CardTitle className="text-2xl text-yellow-400">
+                  ৳{(incomeBreakdown.find((i) => i.name === "Others")?.value || 0).toFixed(2)}
+                </CardTitle>
+              </CardHeader>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

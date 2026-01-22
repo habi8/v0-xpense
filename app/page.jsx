@@ -1,7 +1,25 @@
-import Link from "next/link"
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
 
 export default function Home() {
+  const [loadingGetStarted, setLoadingGetStarted] = useState(false)
+  const [loadingLogin, setLoadingLogin] = useState(false)
+  const router = useRouter()
+
+  const handleGetStarted = () => {
+    setLoadingGetStarted(true)
+    router.push("/auth/signup")
+  }
+
+  const handleLogin = () => {
+    setLoadingLogin(true)
+    router.push("/auth/login")
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="max-w-2xl w-full text-center space-y-8">
@@ -17,16 +35,22 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-              <Link href="/auth/signup">Get Started</Link>
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold min-w-[140px]"
+              onClick={handleGetStarted}
+              disabled={loadingGetStarted || loadingLogin}
+            >
+              {loadingGetStarted ? <Loader2 className="h-5 w-5 animate-spin" /> : "Get Started"}
             </Button>
             <Button
-              asChild
               variant="outline"
               size="lg"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent min-w-[140px]"
+              onClick={handleLogin}
+              disabled={loadingGetStarted || loadingLogin}
             >
-              <Link href="/auth/login">Login</Link>
+              {loadingLogin ? <Loader2 className="h-5 w-5 animate-spin" /> : "Login"}
             </Button>
           </div>
         </div>

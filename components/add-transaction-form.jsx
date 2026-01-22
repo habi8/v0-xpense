@@ -60,6 +60,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
         date: new Date().toISOString(),
         payment_method: paymentMethod || "cash",
         category: finalCategory || "uncategorized",
+        details: details || null,
       }
 
       if (type === "bank_deposit" || type === "bank_withdrawal") {
