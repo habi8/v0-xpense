@@ -11,6 +11,7 @@ import TransactionsList from "@/components/transactions-list"
 import MonthlyReports from "@/components/monthly-reports"
 import YearlyReports from "@/components/yearly-reports"
 import Loader from "@/components/loader"
+import ThemeToggle from "@/components/theme-toggle"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
 export default function DashboardClient({ user, initialTransactions }) {
@@ -83,14 +84,17 @@ export default function DashboardClient({ user, initialTransactions }) {
             <h1 className="text-4xl font-bold text-primary">XPENSE</h1>
             <p className="text-muted-foreground">{user.email}</p>
           </div>
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-            disabled={loggingOut}
-            className="border-primary/20 text-foreground hover:bg-primary hover:text-primary-foreground bg-transparent"
-          >
-            {loggingOut ? "Signing out..." : "Logout"}
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              disabled={loggingOut}
+              className="border-primary/20 text-foreground hover:bg-primary hover:text-primary-foreground bg-transparent"
+            >
+              {loggingOut ? "Signing out..." : "Logout"}
+            </Button>
+          </div>
         </div>
       </div>
 

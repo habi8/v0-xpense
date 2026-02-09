@@ -363,17 +363,17 @@ export default function MonthlyReports({ transactions }) {
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
             <Card className="bg-green-500/10 border-green-500/30">
-              <CardHeader className="pb-2">
-                <CardDescription className="text-green-400/80">Salary</CardDescription>
-                <CardTitle className="text-2xl text-green-400">
+              <CardHeader className="p-3 sm:p-4">
+                <CardDescription className="text-xs sm:text-sm text-green-400/80">Salary</CardDescription>
+                <CardTitle className="text-lg sm:text-xl md:text-2xl text-green-400 break-words mt-2">
                   ৳{(incomeBreakdown.find((i) => i.name === "Salary")?.value || 0).toFixed(2)}
                 </CardTitle>
               </CardHeader>
             </Card>
             <Card className="bg-yellow-500/10 border-yellow-500/30">
-              <CardHeader className="pb-2">
-                <CardDescription className="text-yellow-400/80">Others</CardDescription>
-                <CardTitle className="text-2xl text-yellow-400">
+              <CardHeader className="p-3 sm:p-4">
+                <CardDescription className="text-xs sm:text-sm text-yellow-400/80">Others</CardDescription>
+                <CardTitle className="text-lg sm:text-xl md:text-2xl text-yellow-400 break-words mt-2">
                   ৳{(incomeBreakdown.find((i) => i.name === "Others")?.value || 0).toFixed(2)}
                 </CardTitle>
               </CardHeader>
