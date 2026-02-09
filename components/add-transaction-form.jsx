@@ -9,13 +9,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const EXPENSE_CATEGORIES = {
-<<<<<<< HEAD
   transport: ["Bus", "CNG", "Rickshaw", "Uber", "Pathao", "Train", "Other"],
   food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Restaurant", "Other"],
-=======
   transport: ["Bus", "CNG", "Rickshaw", "Pathao", "Uber", "Train", "Other"],
   food: ["Breakfast", "Lunch", "Dinner", "Snacks", "Restaurant", "Groceries", "Other"],
->>>>>>> e3fce9b (updated ui)
+
   visit: ["Movie", "Park", "Museum", "Friend's place", "Shopping mall", "Other"],
   date: ["Movie", "Restaurant", "Museum", "Exploration", "Other"],
   lending: ["Family", "Friend", "Charity", "Gift", "Other"],
