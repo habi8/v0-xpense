@@ -1,3 +1,4 @@
+import React from "react"
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
@@ -35,7 +36,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const theme = localStorage.getItem('xpense-theme') || 'classic';
+                if (theme === 'comfort') {
+                  document.documentElement.classList.add('comfort-mode');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={`font-sans antialiased`}>
         {children}
         <Analytics />
