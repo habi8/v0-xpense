@@ -191,7 +191,7 @@ export default function MonthlyReports({ transactions }) {
                 <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-black border-primary/20">
+                <SelectContent className="bg-popover text-popover-foreground border-border">
                   {months.map((month) => (
                     <SelectItem key={month.value} value={month.value}>
                       {month.label}
@@ -207,7 +207,7 @@ export default function MonthlyReports({ transactions }) {
                 <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-black border-primary/20">
+                <SelectContent className="bg-popover text-popover-foreground border-border">
                   {years.map((year) => (
                     <SelectItem key={year} value={year}>
                       {year}

@@ -238,7 +238,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
                     <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent className="bg-black border-primary/20">
+                    <SelectContent className="bg-popover text-popover-foreground border-border">
                       <SelectItem value="transport">Transport</SelectItem>
                       <SelectItem value="food">Food</SelectItem>
                       <SelectItem value="visit">Visit</SelectItem>
@@ -291,7 +291,7 @@ export default function AddTransactionForm({ userId, onSuccess, onCancel }) {
                     <SelectTrigger className="bg-background/50 border-primary/20 text-foreground">
                       <SelectValue placeholder="Select or skip" />
                     </SelectTrigger>
-                    <SelectContent className="bg-black border-primary/20">
+                    <SelectContent className="bg-popover text-popover-foreground border-border">
                       {EXPENSE_CATEGORIES[category].map((item) => (
                         <SelectItem key={item} value={item}>
                           {item}
